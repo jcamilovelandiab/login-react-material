@@ -5,13 +5,11 @@ export class TodoApp extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         return (
             <tr>
-                <td>{this.props.text}</td>
-                <td>{this.props.priority}</td>
-                <td>{this.props.dueDate.format('DD-MM-YYYY')}</td>
+                <td>HEYYYYYYY !!</td>
+                <td>This is the TodoApp</td>
             </tr>
         );
     }

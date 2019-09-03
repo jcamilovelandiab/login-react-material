@@ -13,30 +13,26 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {items: [], text: '', priority: 0, dueDate: moment()};
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.handlePriorityChange = this.handlePriorityChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        localStorage.setItem('email=camilo@biciroute.com','camilo');
     }
-
 
     render() {
 
         const LoginView = () => (
-            <Login/>
+            <div>{localStorage.getItem('isLoggedIn')!=null ? <TodoApp/> : <Login/>} </div>
         );
 
         const TodoView = () => (
-            <TodoApp/>
-        );
-        
-        const About = () => (
             <div>
-                <NavBar/>
-                <CoursesList/>
+                {localStorage.getItem('isLoggedIn')!=null ? <TodoApp/>: <div></div>}
             </div>
         );
+
+        const NoMatchView = ({ location }) => (
+            <div>
+              <h3>No match for <code>{location.pathname}</code></h3>
+            </div>
+        )
 
         return (
             <Router>
@@ -49,11 +45,6 @@ class App extends Component {
                     <br/>
                     <br/>
 
-                    <ul>
-                        <li><Link to="/">Login</Link></li>
-                        <li><Link to="/todo">Todo</Link></li>
-                    </ul>
-
                     <div>
                         <Route exact path="/" component={LoginView}/>
                         <Route path="/todo" component={TodoView}/>
@@ -63,44 +54,7 @@ class App extends Component {
         );
     }
 
-    handleTextChange(e) {
-        this.setState({
-            text: e.target.value
-        });
-    }
-
-    handlePriorityChange(e) {
-        this.setState({
-            priority: e.target.value
-        });
-    }
-
-    handleDateChange(date) {
-        this.setState({
-            dueDate: date
-        });
-    }
-
-    handleSubmit(e) {
-
-        e.preventDefault();
-
-        if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate)
-            return;
-
-        const newItem = {
-            text: this.state.text,
-            priority: this.state.priority,
-            dueDate: this.state.dueDate,
-
-        };
-        this.setState(prevState => ({
-            items: prevState.items.concat(newItem),
-            text: '',
-            priority: '',
-            dueDate: ''
-        }));
-    }
+    
 
 }
 
