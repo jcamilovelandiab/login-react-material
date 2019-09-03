@@ -5,6 +5,9 @@ import {TodoList} from "./TodoList";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
+import {Login} from './component/Login.js';
+import {TodoApp} from './TodoApp.js';
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 
 class App extends Component {
 
@@ -20,57 +23,43 @@ class App extends Component {
 
     render() {
 
-        return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1 className="App-title">TODO React App</h1>
-                </header>
+        const LoginView = () => (
+            <Login/>
+        );
 
-                <br/>
-                <br/>
-                <form onSubmit={this.handleSubmit} className="todo-form">
-                    <h3>New TODO</h3>
-                    <label htmlFor="text" className="right-margin">
-                        Text:
-                    </label>
-
-                    <input
-                        id="text"
-                        onChange={this.handleTextChange}
-                        value={this.state.text}>
-                    </input>
-
-                    <br/>
-                    <br/>
-                    <label htmlFor="priority" className="right-margin">
-                        Priority:
-                    </label>
-
-                    <input
-                        id="priority"
-                        type="number"
-                        onChange={this.handlePriorityChange}
-                        value={this.state.priority}>
-                    </input>
-                    <br/>
-                    <br/>
-
-                    <DatePicker
-                        id="due-date"
-                        selected={this.state.dueDate}
-                        placeholderText="Due date"
-                        onChange={this.handleDateChange}>
-                    </DatePicker>
-                    <br/>
-                    <button>
-                        Add #{this.state.items.length + 1}
-                    </button>
-                </form>
-                <br/>
-                <br/>
-                <TodoList todoList={this.state.items}/>
+        const TodoView = () => (
+            <TodoApp/>
+        );
+        
+        const About = () => (
+            <div>
+                <NavBar/>
+                <CoursesList/>
             </div>
+        );
+
+        return (
+            <Router>
+                <div className="App">
+                    <header className="App-header">
+                        <img src={logo} className="App-logo" alt="logo"/>
+                        <h1 className="App-title">TODO React App</h1>
+                    </header>
+
+                    <br/>
+                    <br/>
+
+                    <ul>
+                        <li><Link to="/">Login</Link></li>
+                        <li><Link to="/todo">Todo</Link></li>
+                    </ul>
+
+                    <div>
+                        <Route exact path="/" component={LoginView}/>
+                        <Route path="/todo" component={TodoView}/>
+                    </div>
+                </div>
+            </Router>
         );
     }
 
